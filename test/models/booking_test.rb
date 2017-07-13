@@ -118,23 +118,23 @@ class BookingTest < ActiveSupport::TestCase
     assert_equal false, booking.errors.details.include?(:price)
   end
 
-  test "Booking implements the days_booked interface" do
-    assert_respond_to Booking.new, :days_booked
-  end
+  # test "Booking implements the days_booked interface" do
+  #   assert_respond_to Booking.new, :days_booked
+  # end
 
-  test "Booking days_booked calculates number of days a booking covers" do
-    Timecop.freeze(DateTime.now) do
-      right_now = DateTime.now
-      [5, 4, 20, 1, 9, 16, 3, 100, 200, 300, 364].each do |count|
-        booking = Fabricate.create(:booking,
-          start_at: right_now,
-          end_at: right_now + count.days)
-
-        assert_equal count, booking.days_booked,
-          "Exptected #{count} days to be okay, but it wasn't"
-      end
-    end
-  end
+  # test "Booking days_booked calculates number of days a booking covers" do
+  #   Timecop.freeze(DateTime.now) do
+  #     right_now = DateTime.now
+  #     [5, 4, 20, 1, 9, 16, 3, 100, 200, 300, 364].each do |count|
+  #       booking = Fabricate.create(:booking,
+  #         start_at: right_now,
+  #         end_at: right_now + count.days)
+  #
+  #       assert_equal count, booking.days_booked,
+  #         "Exptected #{count} days to be okay, but it wasn't"
+  #     end
+  #   end
+  # end
 
   test "Booking period is within the year" do
     Timecop.freeze(DateTime.now) do
