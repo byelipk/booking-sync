@@ -26,6 +26,8 @@ group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   gem 'pry', platforms: [:mri, :mingw, :x64_mingw]
   gem 'pry-byebug', platforms: [:mri, :mingw, :x64_mingw]
+  gem 'fabrication'
+  gem 'faker'
 end
 
 group :development do

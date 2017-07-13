@@ -1,0 +1,2 @@
+Fabricator(:rental) do
+end
