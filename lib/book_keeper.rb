@@ -17,7 +17,7 @@ class BookKeeper
   end
 
   def set_price
-    if booking.rental && days_booked
+    if booking.rental
       booking.price = booking.rental.daily_rate * days_booked
     end
   end
