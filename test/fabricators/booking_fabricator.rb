@@ -14,8 +14,7 @@
 
 Fabricator(:booking) do
   rental       { Fabricate.create(:rental) }
-  start_at     { DateTime.now + 1.day  }
-  end_at       { DateTime.now + 2.days }
   client_email { Faker::Internet.email }
-  price        { |attrs| attrs[:rental].daily_rate * 1 }
+  start_at     { DateTime.now + 1.day }
+  end_at       { |attrs| attrs[:start_at] + 2.days }
 end

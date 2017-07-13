@@ -146,4 +146,20 @@ class BookingTest < ActiveSupport::TestCase
       assert_equal 1000, booking.price.to_i
     end
   end
+
+  test "Booking cannot overlap with previous bookings" do
+    Timecop.freeze(DateTime.now) do
+      booking = Fabricate.create(:booking)
+
+      new_booking = Fabricate.build(:booking,
+        rental: booking.rental,
+        start_at: booking.start_at + 12.hours,
+        end_at: booking.end_at + 5.days)
+
+      new_booking.save
+
+      assert_equal true, new_booking.errors.messages.include?(:already_booked),
+        "Expected error because rental was already booked, but there was none"
+    end
+  end
 end

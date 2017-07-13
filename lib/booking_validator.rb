@@ -25,4 +25,14 @@ class BookingValidator
        booking.errors.add(:out_of_range, "booking must be within the year")
      end
    end
+
+   def booking_does_not_overlap
+     time_range     = booking.start_at..booking.end_at
+     bookings_exist = booking.rental.bookings.where(
+      "? >= start_at AND ? <= end_at", booking.start_at, booking.start_at).any?
+
+     if bookings_exist
+       booking.errors.add(:already_booked, "sorry :(")
+     end
+   end
 end

@@ -23,6 +23,7 @@ ActiveRecord::Schema.define(version: 20170713161813) do
     t.decimal "price", precision: 12, scale: 2, default: "0.0", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["rental_id", "start_at", "end_at"], name: "index_bookings_on_rental_id_and_start_at_and_end_at"
     t.index ["rental_id"], name: "index_bookings_on_rental_id"
   end
 

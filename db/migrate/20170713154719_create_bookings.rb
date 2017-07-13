@@ -17,5 +17,6 @@ class CreateBookings < ActiveRecord::Migration[5.1]
     end
 
     add_index :bookings, :rental_id
+    add_index :bookings, [:rental_id, :start_at, :end_at]
   end
 end

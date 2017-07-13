@@ -35,13 +35,15 @@ class Booking < ApplicationRecord
 
   validate :rental_date_cannot_be_in_the_past,
            :minimum_rental_is_for_one_day,
-           :rental_period_within_the_year
+           :rental_period_within_the_year,
+           :booking_does_not_overlap
 
   after_validation :set_price
 
   delegate :minimum_rental_is_for_one_day,
            :rental_date_cannot_be_in_the_past,
            :rental_period_within_the_year,
+           :booking_does_not_overlap,
            to: :booking_validator
 
   delegate :set_price, to: :book_keeper
