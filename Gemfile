@@ -8,12 +8,13 @@ end
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.1.2'
-gem 'pg'
 gem 'puma', '~> 3.7'
-gem 'active_model_serializers'
-gem 'pbkdf2'
+gem 'pg'
 
-gem 'figaro'
+gem 'active_model_serializers' # For building JSON API
+gem 'pbkdf2' # Replace bcrypt
+gem 'figaro' # Set ENV variables
+gem 'money'  # For money/currency handling
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
@@ -28,6 +29,8 @@ group :development, :test do
   gem 'pry-byebug', platforms: [:mri, :mingw, :x64_mingw]
   gem 'fabrication'
   gem 'faker'
+  gem 'timecop'
+  gem 'annotate'
 end
 
 group :development do
@@ -35,7 +38,6 @@ group :development do
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
-  gem 'annotate'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
