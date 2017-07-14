@@ -212,4 +212,48 @@ class Api::V1::RentalsControllerTest < ActionDispatch::IntegrationTest
 
   end
 
+  describe "destroy" do
+
+    before do
+      @rental = Fabricate.create(:rental, name: "Car", daily_rate: 250.00)
+      @uri = "/api/v1/rentals/#{@rental.id}"
+    end
+
+    describe "when authenticated" do
+
+      before { @headers = authenticate! }
+
+      describe "and resource exists" do
+
+        it "returns 200 | ok" do
+          delete @uri, headers: @headers
+          assert_response 200
+        end
+
+      end
+
+      describe "and resource does not exist" do
+
+        before { @uri = "/api/v1/rentals/-100" }
+
+        it "returns 404 | not found" do
+          delete @uri, headers: @headers
+          assert_response 404
+        end
+
+      end
+
+    end
+
+    describe "when not authenticated" do
+
+      it "returns 401 | unauthorized" do
+        delete @uri, headers: {}
+        assert_response 401
+      end
+
+    end
+
+  end
+
 end

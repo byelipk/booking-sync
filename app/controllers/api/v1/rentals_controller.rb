@@ -2,7 +2,7 @@ class Api::V1::RentalsController < ApplicationController
 
   before_action :ensure_authenticated_request
 
-  before_action :find_rental, only: [:show, :update]
+  before_action :find_rental, only: [:show, :update, :destroy]
 
   def index
     render jsonapi: Rental.includes(:bookings).all, status: 200
@@ -33,6 +33,14 @@ class Api::V1::RentalsController < ApplicationController
         status: 422,
         adapter: :json_api,
         serializer: ActiveModel::Serializer::ErrorSerializer
+    end
+  end
+
+  def destroy
+    if @rental.destroy
+      head 200
+    else
+      head 422
     end
   end
 
