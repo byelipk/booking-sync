@@ -101,4 +101,45 @@ class Api::V1::RentalsControllerTest < ActionDispatch::IntegrationTest
 
   end
 
+  describe "update" do
+
+    before do
+      @rental = Fabricate.create(:rental, name: "Car", daily_rate: 250.00)
+
+      @rental.name = "Boat"
+
+      @resource = json_document_for(@rental, Api::V1::RentalSerializer)
+      @uri      = "/api/v1/rentals/#{@rental.id}"
+    end
+
+    describe "when authenticated" do
+
+      before { @headers = authenticate! }
+
+      it "returns 200 | ok" do
+        put @uri, params: @resource.as_json, headers: @headers
+        assert_response 200
+      end
+
+      it "returns updated resource" do
+        put @uri, params: @resource.as_json, headers: @headers
+
+        content = json(@response.body)
+
+        assert_equal @rental.id, content[:data][:id].to_i
+        assert_equal "Boat", content[:data][:attributes][:name]
+      end
+    end
+
+    describe "when not authenticated" do
+
+      it "returns 401 | unauthorized" do
+        put @uri, params: @resource.as_json, headers: {}
+        assert_response 401
+      end
+
+    end
+
+  end
+
 end

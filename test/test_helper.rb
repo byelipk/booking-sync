@@ -14,4 +14,10 @@ class ActiveSupport::TestCase
   def authenticate!
     { "X-HAPPY-DAYS" => "make-me-feel-fine" }
   end
+
+  def json_document_for(resource, serializer)
+    ActiveModelSerializers::SerializableResource.new(
+      resource, { serializer: serializer, adapter: :json_api }
+    )
+  end
 end
