@@ -17,7 +17,7 @@ class ApplicationController < ActionController::API
   end
 
   def resource_not_found(exception)
-    render json: {
+    render jsonapi: {
       errors: {
         id: exception.id,
         status: 404,

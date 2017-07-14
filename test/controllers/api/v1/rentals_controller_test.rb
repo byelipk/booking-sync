@@ -142,4 +142,74 @@ class Api::V1::RentalsControllerTest < ActionDispatch::IntegrationTest
 
   end
 
+  describe "create" do
+
+    before do
+      @uri = "/api/v1/rentals"
+      @params = {
+        data: {
+          type: "Rental",
+          attributes: {
+            name: "Car",
+            daily_rate: 250.00
+          }
+        }
+      }
+    end
+
+    describe "when authenticated" do
+
+      before { @headers = authenticate! }
+
+      it "returns 201 | created" do
+        post @uri, params: @params, headers: @headers
+        assert_response 201
+      end
+
+      it "returns new resource" do
+        post @uri, params: @params, headers: @headers
+
+        content = json(@response.body)
+
+        assert_equal "Car", content[:data][:attributes][:name]
+      end
+
+      it "increases number of rentals by 1" do
+        assert_difference "Rental.count" do
+          post @uri, params: @params, headers: @headers
+        end
+      end
+
+      describe "with invalid params" do
+
+        before { @params[:data][:attributes][:daily_rate] = -100.00 }
+
+        it "returns 422 | unprocessible entity" do
+          post @uri, params: @params, headers: @headers
+          assert_response 422
+        end
+
+        it "returns error" do
+          post @uri, params: @params, headers: @headers
+
+          content = json @response.body
+
+          assert_equal "/data/attributes/daily_rate", content[:errors].first[:source][:pointer]
+        end
+
+      end
+
+    end
+
+    describe "when not authenticated" do
+
+      it "returns 401 | unauthorized" do
+        post @uri, params: @params, headers: @headers
+        assert_response 401
+      end
+
+    end
+
+  end
+
 end

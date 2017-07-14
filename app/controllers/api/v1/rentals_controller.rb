@@ -16,7 +16,23 @@ class Api::V1::RentalsController < ApplicationController
     if @rental.update(rental_params)
       render jsonapi: @rental, status: 200
     else
-      render jsonapi: @rental.errors, status: 403
+      render jsonapi: @rental,
+        status: 422,
+        adapter: :json_api,
+        serializer: ActiveModel::Serializer::ErrorSerializer
+    end
+  end
+
+  def create
+    rental = Rental.new(rental_params)
+
+    if rental.save
+      render jsonapi: rental, status: 201
+    else
+      render jsonapi: rental,
+        status: 422,
+        adapter: :json_api,
+        serializer: ActiveModel::Serializer::ErrorSerializer
     end
   end
 
