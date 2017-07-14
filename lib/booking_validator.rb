@@ -7,7 +7,7 @@ class BookingValidator
 
   # Custom Validations
    def rental_date_cannot_be_in_the_past
-     if booking.start_at.present? && booking.start_at < DateTime.now
+     if booking.start_at.present? && booking.start_at < Time.current
        booking.errors.add(:start_at, "can't be in the past")
      end
    end
@@ -29,10 +29,14 @@ class BookingValidator
    def booking_does_not_overlap
      time_range     = booking.start_at..booking.end_at
      bookings_exist = booking.rental.bookings.where(
-      "? >= start_at AND ? <= end_at", booking.start_at, booking.start_at).any?
+      "id != ? AND ? >= start_at AND ? <= end_at",
+        booking.id || 0, # Assume no records with ids <= 0
+        booking.start_at,
+        booking.start_at
+     ).any?
 
      if bookings_exist
-       booking.errors.add(:already_booked, "sorry :(")
+       booking.errors.add(:already_booked, "Sorry :(")
      end
    end
 end

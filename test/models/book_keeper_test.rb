@@ -16,11 +16,11 @@ class BookKeeperTest < ActiveSupport::TestCase
   end
 
   test "Booking days_booked calculates number of days a booking covers" do
-    Timecop.freeze(DateTime.now) do
+    Timecop.freeze(Time.current) do
       [5, 4, 20, 1, 9, 16, 3, 100, 200, 300, 364].each do |count|
         booking = Fabricate.create(:booking,
-          start_at: DateTime.now,
-          end_at: DateTime.now + count.days)
+          start_at: Time.current,
+          end_at: Time.current + count.days)
 
         @book_keeper = BookKeeper.new(booking)
 

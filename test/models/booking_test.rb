@@ -46,8 +46,8 @@ class BookingTest < ActiveSupport::TestCase
     assert_equal true, booking.errors.messages.include?(:start_at)
     assert_equal true, booking.errors.messages.include?(:end_at)
 
-    booking.start_at = DateTime.now.utc + 1.day
-    booking.end_at = DateTime.now.utc + 2.days
+    booking.start_at = Time.current.utc + 1.day
+    booking.end_at = Time.current.utc + 2.days
     booking.save
 
     assert_equal false, booking.errors.messages.include?(:start_at)
@@ -55,18 +55,18 @@ class BookingTest < ActiveSupport::TestCase
   end
 
   test "Booking start_at cannot be in the past" do
-    Timecop.freeze(DateTime.now.utc) do
-      booking = Fabricate.build(:booking, start_at: DateTime.now.utc - 1.second)
+    Timecop.freeze(Time.current.utc) do
+      booking = Fabricate.build(:booking, start_at: Time.current.utc - 1.second)
       booking.save
 
       assert_equal true, booking.errors.messages.include?(:start_at)
 
-      booking.start_at = DateTime.now.utc - 1.day
+      booking.start_at = Time.current.utc - 1.day
       booking.save
 
       assert_equal true, booking.errors.messages.include?(:start_at)
 
-      booking.start_at = DateTime.now.utc + 1.second
+      booking.start_at = Time.current.utc + 1.second
       booking.save
 
       assert_equal false, booking.errors.messages.include?(:start_at)
@@ -74,17 +74,17 @@ class BookingTest < ActiveSupport::TestCase
   end
 
   test "Booking must be at least for 24 hours" do
-    Timecop.freeze(DateTime.now) do
+    Timecop.freeze(Time.current) do
       booking = Fabricate.build(:booking,
-        start_at: DateTime.now,
-        end_at: DateTime.now + 1439.minutes)
+        start_at: Time.current,
+        end_at: Time.current + 1439.minutes)
 
       booking.save
 
       assert_equal true, booking.errors.messages.include?(:end_at),
         "Expected a validation error on end_at, but there wasn't one"
 
-      booking.end_at = DateTime.now + 1.day
+      booking.end_at = Time.current + 1.day
       booking.save
 
       assert_equal false, booking.errors.messages.include?(:end_at),
@@ -119,8 +119,8 @@ class BookingTest < ActiveSupport::TestCase
   end
 
   test "Booking period is within the year" do
-    Timecop.freeze(DateTime.now) do
-      right_now = DateTime.now
+    Timecop.freeze(Time.current) do
+      right_now = Time.current
       booking = Fabricate.build(:booking,
         start_at: right_now,
         end_at: right_now + 366.days)
@@ -133,22 +133,22 @@ class BookingTest < ActiveSupport::TestCase
   end
 
   test "Booking price is set when the booking is created" do
-    Timecop.freeze(DateTime.now) do
+    Timecop.freeze(Time.current) do
       rental = Fabricate.create(:rental,
         name: "Kayaak",
         daily_rate: 500.00)
 
       booking = Fabricate.create(:booking,
         rental: rental,
-        start_at: DateTime.now,
-        end_at: DateTime.now + 2.days)
+        start_at: Time.current,
+        end_at: Time.current + 2.days)
 
       assert_equal 1000, booking.price.to_i
     end
   end
 
   test "Booking cannot overlap with previous bookings" do
-    Timecop.freeze(DateTime.now) do
+    Timecop.freeze(Time.current) do
       booking = Fabricate.create(:booking)
 
       new_booking = Fabricate.build(:booking,

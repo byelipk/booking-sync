@@ -47,11 +47,11 @@ class Api::V1::RentalsControllerTest < ActionDispatch::IntegrationTest
         name: "Car",
         daily_rate: 250.00)
 
-      Timecop.freeze(DateTime.now) do
+      Timecop.freeze(Time.current) do
         @booking = Fabricate.create(:booking,
           rental: @rental,
-          start_at: DateTime.now,
-          end_at: DateTime.now + 5.days)
+          start_at: Time.current,
+          end_at: Time.current + 5.days)
       end
 
       @uri = "/api/v1/rentals/#{@rental.id}"

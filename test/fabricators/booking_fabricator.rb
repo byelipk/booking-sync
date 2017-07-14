@@ -15,6 +15,6 @@
 Fabricator(:booking) do
   rental       { Fabricate.create(:rental) }
   client_email { Faker::Internet.email }
-  start_at     { DateTime.now + 1.day }
+  start_at     { Time.current + 1.day }
   end_at       { |attrs| attrs[:start_at] + 2.days }
 end

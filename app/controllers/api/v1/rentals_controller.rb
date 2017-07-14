@@ -18,7 +18,6 @@ class Api::V1::RentalsController < ApplicationController
     else
       render jsonapi: @rental,
         status: 422,
-        adapter: :json_api,
         serializer: ActiveModel::Serializer::ErrorSerializer
     end
   end
@@ -31,7 +30,6 @@ class Api::V1::RentalsController < ApplicationController
     else
       render jsonapi: rental,
         status: 422,
-        adapter: :json_api,
         serializer: ActiveModel::Serializer::ErrorSerializer
     end
   end
