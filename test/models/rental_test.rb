@@ -4,6 +4,7 @@
 #
 #  id         :integer          not null, primary key
 #  name       :string           not null
+#  img_url    :string
 #  daily_rate :decimal(12, 2)   default(0.0), not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
@@ -22,6 +23,10 @@ class RentalTest < ActiveSupport::TestCase
 
   test "Rental implements the daily_rate interface" do
     assert_respond_to Rental.new, :daily_rate
+  end
+
+  test "Rental implements the img_url interface" do
+    assert_respond_to Rental.new, :img_url
   end
 
   test "Rental implements the bookings interface" do

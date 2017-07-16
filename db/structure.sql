@@ -81,6 +81,7 @@ ALTER SEQUENCE bookings_id_seq OWNED BY bookings.id;
 CREATE TABLE rentals (
     id bigint NOT NULL,
     name character varying NOT NULL,
+    img_url character varying,
     daily_rate numeric(12,2) DEFAULT 0.0 NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
