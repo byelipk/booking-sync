@@ -21,6 +21,20 @@ CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
 COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
 
 
+--
+-- Name: pg_trgm; Type: EXTENSION; Schema: -; Owner: -
+--
+
+CREATE EXTENSION IF NOT EXISTS pg_trgm WITH SCHEMA public;
+
+
+--
+-- Name: EXTENSION pg_trgm; Type: COMMENT; Schema: -; Owner: -
+--
+
+COMMENT ON EXTENSION pg_trgm IS 'text similarity measurement and index searching based on trigrams';
+
+
 SET search_path = public, pg_catalog;
 
 SET default_tablespace = '';
@@ -177,6 +191,13 @@ CREATE INDEX index_bookings_on_rental_id_and_start_at_and_end_at ON bookings USI
 
 
 --
+-- Name: index_rentals_on_name; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_rentals_on_name ON rentals USING btree (name);
+
+
+--
 -- PostgreSQL database dump complete
 --
 
@@ -184,6 +205,7 @@ SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
 ('20170713154719'),
-('20170713161813');
+('20170713161813'),
+('20170716161034');
 
 
