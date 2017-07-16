@@ -36,7 +36,7 @@ class BookingValidator
      ).any?
 
      if bookings_exist
-       booking.errors.add(:already_booked, "Sorry :(")
+       booking.errors.add(:already_booked, "Rental is already booked for these dates.")
      end
    end
 end
