@@ -45,7 +45,7 @@ class Api::V1::BookingsController < ApplicationController
 
   def destroy
     if @booking.destroy
-      head 200
+      head 204
     else
       head 422
     end

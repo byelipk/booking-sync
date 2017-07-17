@@ -237,9 +237,9 @@ class Api::V1::BookingsControllerTest < ActionDispatch::IntegrationTest
 
       describe "and resource exists" do
 
-        it "returns 200 | ok" do
+        it "returns 204 | no content" do
           delete @uri, headers: @headers
-          assert_response 200
+          assert_response 204
         end
 
       end
