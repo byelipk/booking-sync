@@ -71,4 +71,11 @@ class RentalTest < ActiveSupport::TestCase
 
     assert_equal false, rental.errors.messages.include?(:daily_rate)
   end
+
+  test "default img_url set on create" do
+    rental = Fabricate.build(:rental)
+    rental.save
+
+    assert_not_nil rental.img_url
+  end
 end
