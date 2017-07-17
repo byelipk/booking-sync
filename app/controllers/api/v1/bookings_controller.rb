@@ -5,7 +5,16 @@ class Api::V1::BookingsController < ApplicationController
   before_action :find_booking, only: [:show, :update, :destroy]
 
   def index
-    render jsonapi: Booking.all, status: 200
+    if params[:include] == "rentals"
+      bookings = Booking.includes(:rental).all
+
+      render(
+        jsonapi: bookings,
+        include: [:rental],
+        status: 200 )
+    else
+      render jsonapi: Booking.all, status: 200
+    end
   end
 
   def show
