@@ -5,16 +5,14 @@ class Api::V1::RentalsController < ApplicationController
   before_action :find_rental, only: [:show, :update, :destroy]
 
   def index
-    rental_bookings = Rental.includes(:bookings)
-
     if params[:query]
       render(
-        jsonapi: rental_bookings.where(
+        jsonapi: Rental.where(
           "similarity(name, ?) > 0.1", params[:query]),
         status: 200
       )
     else
-      render jsonapi: rental_bookings.all, status: 200
+      render jsonapi: Rental.all, status: 200
     end
   end
 
