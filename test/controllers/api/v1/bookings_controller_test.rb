@@ -46,6 +46,24 @@ class Api::V1::BookingsControllerTest < ActionDispatch::IntegrationTest
 
     end
 
+    describe "when including rentals in response" do
+
+      before do
+        @headers = authenticate!
+        @uri << "?include=rentals"
+      end
+
+      it "works" do
+        get @uri, headers: @headers
+
+        assert_response 200
+
+        content = json(@response.body)
+
+        assert_not_nil content[:included]
+      end
+    end
+
   end
 
   describe "show" do
