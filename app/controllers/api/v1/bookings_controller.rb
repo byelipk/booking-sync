@@ -63,7 +63,7 @@ class Api::V1::BookingsController < ApplicationController
 
   def booking_params
     @booking_params ||= ActiveModelSerializers::Deserialization.jsonapi_parse!(
-      params, only: [:start_at, :end_at, :client_email, :price, :rental]
+      params, only: [:start_at, :end_at, :client_email, :rental]
     )
   end
 

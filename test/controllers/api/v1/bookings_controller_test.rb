@@ -169,7 +169,7 @@ class Api::V1::BookingsControllerTest < ActionDispatch::IntegrationTest
 
     before do
       @uri = "/api/v1/bookings"
-      @rental = Fabricate.create(:rental)
+      @rental = Fabricate.create(:rental, daily_rate: 150)
       @params = {
         data: {
           type: "Booking",
@@ -225,6 +225,20 @@ class Api::V1::BookingsControllerTest < ActionDispatch::IntegrationTest
           content = json @response.body
 
           assert_equal "/data/attributes/end_at", content[:errors].first[:source][:pointer]
+        end
+
+      end
+
+      describe "price" do
+
+        before { @params[:data][:attributes][:price] = 1000 }
+
+        it "cannot be assigned" do
+          post @uri, params: @params, headers: @headers
+
+          content = json @response.body
+
+          assert_equal "150.0", content[:data][:attributes][:price]
         end
 
       end
